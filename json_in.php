@@ -24,9 +24,15 @@
                         $enlng = (DOUBLE)$data4;
                         $n_d = (INT)$data5;
                         $h_d = (INT)$data6;
-                        $sql1 = sprintf("INSERT INTO LowRSC (st_lat, st_lng, en_lat, en_lng, no_dump, high_dump)
-                                VALUES (%9.7f, %10.7f, %9.7f, %10.7f, %d, %d)", $stlat, $stlng, $enlat, $enlng, $n_d, $h_d);
-                        $result = mysql_query($sql1);
+
+                        if($stlat != 0){
+                                $sql1 = sprintf("INSERT INTO LowRSC (st_lat, st_lng, en_lat, en_lng, no_dump, high_dump)
+                                        VALUES (%9.7f, %10.7f, %9.7f, %10.7f, %d, %d)", $stlat, $stlng, $enlat, $enlng, $n_d, $h_d);
+                                $result = mysql_query($sql1);
+
+                                require_once 'value_move.php';
+                                $move1 = summary($stlat, $stlng, $enlat, $enlng);
+                        }
                 }
         }else{
                 echo "error!";
