@@ -4,15 +4,19 @@
                 $data2 = (String)$_REQUEST['st_lng'];
                 $data3 = (String)$_REQUEST['en_lat'];
                 $data4 = (String)$_REQUEST['en_lng'];
+                $stlat = (DOUBLE)$data1;
+                $stlng = (DOUBLE)$data2;
+                $enlat = (DOUBLE)$data3;
+                $enlng = (DOUBLE)$data4;
 
                 require_once 'route_serch.php'; //関数呼び出し準備
-                echo A_star_serch(0,0,0,0); //A*探索関数の呼び出し
+                echo A_star_serch($stlat,$stlng,$enlat,$enlng); //A*探索関数の呼び出し
 
         }else{ //接続失敗
                 echo "error de gozaru !";
 
                 require_once 'route_serch.php'; //関数呼び出しデバック
-                echo A_star_serch(0,0,0,0); //A*探索関数のデバック
+                echo A_star_serch(0,0,0,0); //A*探索関数の呼び出し
 
         }
 ?>
