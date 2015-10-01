@@ -7,7 +7,7 @@
                 $data4 = (String)$_REQUEST['en_lng'];
                 $data5 = (String)$_REQUEST['no_dump'];
                 $data6 = (String)$_REQUEST['high_dump'];
-                #echo $data1, $data2,$data3, $data4, $data5, $data6, $data7;
+                echo $data1, $data2,$data3, $data4, $data5, $data6;
 
                 $db_kuru = mysql_connect('localhost', 'kurutest', 'kurutest');
                 if(!$db_kuru){
@@ -27,7 +27,6 @@
                         $sql1 = sprintf("INSERT INTO LowRSC (st_lat, st_lng, en_lat, en_lng, no_dump, high_dump)
                                 VALUES (%9.7f, %10.7f, %9.7f, %10.7f, %d, %d)", $stlat, $stlng, $enlat, $enlng, $n_d, $h_d);
                         $result = mysql_query($sql1);
-                        echo "insert completion.";
                 }
         }else{
                 echo "error!";
