@@ -10,7 +10,7 @@
                 $enlng = (DOUBLE)$data4;
 
                 require_once 'route_serch.php'; //ŠÖ”ŒÄ‚Ño‚µ€”õ
-                echo A_star_serch($stlat,$stlng,$enlat,$enlng); //A*’TõŠÖ”‚ÌŒÄ‚Ño‚µ
+                echo route_serch($stlat,$stlng,$enlat,$enlng); //A*’TõŠÖ”‚ÌŒÄ‚Ño‚µ
 
         }else{ //Ú‘±¸”s
                 echo "error de gozaru !";
