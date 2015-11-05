@@ -75,15 +75,15 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 include_once "dijkstra.php";
 
                 #start_location‚Æend_location‚Ìjson‰»
-                $start_location = json_encode(array(start_location=>array('lat'=>$stlat, 'lng'=>$stlng)));
-                $end_location = json_encode(array(end_location=>array('lat'=>$enlat, 'lng'=>$enlng)));
+                $start_location = json_encode(array(start_location=>array('lat'=>$row1s['Latitude'], 'lng'=>$row1s['Longitude'])));
+                $end_location = json_encode(array(end_location=>array('lat'=>$row1e['Latitude'], 'lng'=>$row1e['Longitude'])));
                 echo "$start_location<br>$end_location<br>" ;
 
                 #waypoint‚Ìjson‰»
                 $waypoints = array();
                 $m = 0;
                 for($l = count($result) - 1; $l >= 0; $l--){
-                        $waypoints[$m] = array('lat'=>(STRING)$nodelat[$l], 'lng'=>(STRING)$nodelng[$l]);
+                        $waypoints[$m] = array('lat'=>(STRING)$nodelat[$result[$m]-1], 'lng'=>(STRING)$nodelng[$result[$m]-1]);
                         $m++;
                 }
                 echo json_encode(array(waypoint=>$waypoints));

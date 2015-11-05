@@ -3,7 +3,7 @@
 # 経路コストの配列
 $cost_list = array();
 $cost_listt = array();
-
+$dis_cost = 0;
 for($k = 0; $k < count($node); $k++){
         $sql4 = sprintf("SELECT * FROM link WHERE EndNode = %d", $node[$k] );
         $query4 = mysql_query($sql4);
@@ -11,11 +11,17 @@ for($k = 0; $k < count($node); $k++){
                 die('query error'.mysql_error());
         }
         while($row4 = mysql_fetch_assoc($query4)){
-                $cost_listt += array((STRING)$row4['StartNode']=>(INT)$row4['high_dump']);
+                if((INT)$row4['Distance'] >= 600) $dis_cost = 3;
+                if((INT)$row4['Distance'] > 400 && (INT)$row4['Distance'] < 600) $dis_cost = 2;
+                if((INT)$row4['Distance'] <=400) $dis_cost = 1;
+                $cost_listt += array((STRING)$row4['StartNode']=>(INT)$row4['high_dump'] + $dis_cost);
+                $dis_cost = 0;
         }
         $cost_list += array($node[$k]=>$cost_listt);
         $cost_listt = array();
 }
+
+#var_dump($cost_list);
 
 # ダイクストラ法
 function dijkstra($start_node, $cost_list){
@@ -96,6 +102,8 @@ function serch_path($start_node, $end_node, $cost_list){
 }
 
         $result = serch_path($start_node, $end_node, $cost_list);
+
+        #var_dump($result);
 
 # dist_node
 # visited_node = 検証したノードかどうかのフラグ

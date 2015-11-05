@@ -26,7 +26,7 @@
                         $h_d = (INT)$data6;
 
                         if($stlat != 0){
-                                $sql = sprintf("INSERT INTO tLowRSC (st_lat, st_lng, en_lat, en_lng, no_dump, high_dump)
+                                $sql = sprintf("INSERT INTO LowRoad (st_lat, st_lng, en_lat, en_lng, no_dump, high_dump)
                                         VALUES (%9.7f, %10.7f, %9.7f, %10.7f, %d, %d)", $stlat, $stlng, $enlat, $enlng, $n_d, $h_d);
                                 $query = mysql_query($sql);
 
