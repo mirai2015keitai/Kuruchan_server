@@ -5,7 +5,7 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 echo "DBMS not connection";
         }
 
-        $db_select = mysql_select_db('kuru_test', $db_kuru);
+        $db_select = mysql_select_db('kuru_test2', $db_kuru);
         if (!$db_select){
                 die('database not connection'.mysql_error());
         }else{
@@ -66,8 +66,8 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 $j = 0;
                 while($row3 = mysql_fetch_assoc($query3)){
                         $node[$j] = $row3['NodeNo'];
-                        $nodelat[$j] = $row3['Latitude'];
-                        $nodelng[$j] = $row3['Longitude'];
+                        $nodelat[$node[$j]] = $row3['Latitude'];
+                        $nodelng[$node[$j]] = $row3['Longitude'];
                         $j++;
                 }
 
@@ -77,13 +77,13 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 #start_location‚Æend_location‚Ìjson‰»
                 $start_location = json_encode(array(start_location=>array('lat'=>$row1s['Latitude'], 'lng'=>$row1s['Longitude'])));
                 $end_location = json_encode(array(end_location=>array('lat'=>$row1e['Latitude'], 'lng'=>$row1e['Longitude'])));
-                echo "$start_location<br>$end_location<br>" ;
+                #echo "$start_location,$end_location," ;
 
-                #waypoint‚Ìjson‰»
+                #waypoint‚Ìjson‰»start‚©‚çend‚Ì‡
                 $waypoints = array();
                 $m = 0;
                 for($l = count($result) - 1; $l >= 0; $l--){
-                        $waypoints[$m] = array('lat'=>(STRING)$nodelat[$result[$m]-1], 'lng'=>(STRING)$nodelng[$result[$m]-1]);
+                        $waypoints[$m] = array('lat'=>(STRING)$nodelat[$result[$l]], 'lng'=>(STRING)$nodelng[$result[$l]]);
                         $m++;
                 }
                 echo json_encode(array(waypoint=>$waypoints));
