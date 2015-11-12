@@ -7,14 +7,15 @@
                 $data4 = (String)$_REQUEST['en_lng'];
                 $data5 = (String)$_REQUEST['no_dump'];
                 $data6 = (String)$_REQUEST['high_dump'];
-                echo $data1, $data2,$data3, $data4, $data5, $data6;
+                $data = sprintf( "%9.7f, %10.7f, %9.7f, %10.7f, %d, %d", $data1, $data2,$data3, $data4, $data5, $data6);
+                echo "$data";
 
                 $db_kuru = mysql_connect('localhost', 'kurutest', 'kurutest');
                 if(!$db_kuru){
-                        echo "not connection";
+                        echo "mysql not connection.";
                 }
 
-                $db_select = mysql_select_db('kuru_test', $db_kuru);
+                $db_select = mysql_select_db('kuru_test2', $db_kuru);
                 if (!$db_select){
                         die('detabes not connection.'.mysql_error());
                 }else{
@@ -25,16 +26,19 @@
                         $n_d = (INT)$data5;
                         $h_d = (INT)$data6;
 
-                        if($stlat != 0){
+                        if($stlat != 0 && $enlat != 0 && $n_d == 0){
                                 $sql = sprintf("INSERT INTO LowRoad (st_lat, st_lng, en_lat, en_lng, no_dump, high_dump)
                                         VALUES (%9.7f, %10.7f, %9.7f, %10.7f, %d, %d)", $stlat, $stlng, $enlat, $enlng, $n_d, $h_d);
                                 $query = mysql_query($sql);
 
-                                require_once 'value_move.php';
-                                summary($stlat, $stlng, $enlat, $enlng);
+                                require_once 'update_cost.php';
+                                cost1();
+                        }else if($h_d == 999){
+                                require_once 'update_cost.php';
+                                cost2();
                         }
                 }
         }else{
-                echo "error!";
+                echo "error 1.";
         }
 ?>
