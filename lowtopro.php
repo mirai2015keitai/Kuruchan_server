@@ -101,7 +101,7 @@ step_3:
                 $en_lat[$y] = $row3['Latitude'];
                 $en_lng[$y] = $row3['Longitude'];
 
-                $r = 0.2;
+                $r = 0.00045;
                 $e1lat[$y] = $row3['Latitude'] - $r;
                 $e1lng[$y] = $row3['Longitude'] - $r;
                 $e2lat[$y] = $row3['Latitude'] + $r;
