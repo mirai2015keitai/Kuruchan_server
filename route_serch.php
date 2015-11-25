@@ -1,18 +1,18 @@
 <?php
 function route_serch($stlat, $stlng, $enlat, $enlng){
-        $db_kuru = mysql_connect('localhost', 'kurutest', 'kurutest');
+        $db_kuru = mysql_connect('localhost', 'KuRUchAn', 'chankuru');
         if(!$db_kuru){
                 echo "DBMS not connection";
         }
 
-        $db_select = mysql_select_db('kuru_test2', $db_kuru);
+        $db_select = mysql_select_db('kuruchan', $db_kuru);
         if (!$db_select){
                 die('database not connection'.mysql_error());
         }else{
                 $srlen = 0.00277778; //300m
 
                 #StartNode‚Ì”»’è
-                $sql1s = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM node ORDER BY len LIMIT 0 , 1;", $stlat, $stlng);
+                $sql1s = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM Node ORDER BY len LIMIT 0 , 1;", $stlat, $stlng);
                 $query1s = mysql_query($sql1s);
                 if (!$query1s) {
                         die('query error'.mysql_error());
@@ -20,7 +20,7 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 $row1s = mysql_fetch_assoc($query1s);
 
                 #EndNode‚Ì”»’è
-                $sql1e = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM node ORDER BY len LIMIT 0 , 1;", $enlat, $enlng);
+                $sql1e = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM Node ORDER BY len LIMIT 0 , 1;", $enlat, $enlng);
                 $query1e = mysql_query($sql1e);
                 if (!$query1e) {
                         die('query error'.mysql_error());
@@ -34,7 +34,7 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 #echo "startnode=$start_node, endnode=$end_node";
 
                 #StartNode‚ÆEndNode‚ÌŒoˆÜ“xŽæ“¾
-                $sql2 = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude FROM node WHERE NodeNo = %d OR NodeNo = %d", $start_node, $end_node );
+                $sql2 = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude FROM Node WHERE NodeNo = %d OR NodeNo = %d", $start_node, $end_node );
                 $query2 = mysql_query($sql2);
                 if (!$query2) {
                         die('query error'.mysql_error());
@@ -57,7 +57,7 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 $r2lat = $cx - $r;
                 $r2lng = $cy - $r;
 
-                $sql3 = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude FROM node WHERE MBRContains(GeomFromText('LINESTRING(%f %f, %f %f)'), latlon)", $r1lat, $r1lng, $r2lat, $r2lng);
+                $sql3 = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude FROM Node WHERE MBRContains(GeomFromText('LINESTRING(%f %f, %f %f)'), latlon)", $r1lat, $r1lng, $r2lat, $r2lng);
                 $query3 = mysql_query($sql3);
                 if (!$query3) {
                         die('query error'.mysql_error());

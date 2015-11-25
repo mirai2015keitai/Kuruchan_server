@@ -5,7 +5,7 @@ $cost_list = array();
 $cost_listt = array();
 $dis_cost = 0;
 for($k = 0; $k < count($node); $k++){
-        $sql4 = sprintf("SELECT * FROM link WHERE EndNode = %d", $node[$k] );
+        $sql4 = sprintf("SELECT * FROM Link WHERE EndNode = %d", $node[$k] );
         $query4 = mysql_query($sql4);
         if (!$query4) {
                 die('query error'.mysql_error());
