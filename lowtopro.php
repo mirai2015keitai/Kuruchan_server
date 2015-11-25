@@ -33,7 +33,7 @@ if (!$db_select){
         $l=0;
         $high_dump = 0;
 
-#LowRoad‚ÌŒo˜H‚ğ’Šo
+#LowRoadã®çµŒè·¯ã‚’æŠ½å‡º
 step_1:
         echo "<br>start step 1<br>";
         $k = 0;
@@ -62,7 +62,7 @@ step_1:
         }
         goto step_6;
 
-#StartNode‚Ì”»’è
+#StartNodeã®åˆ¤å®š
 step_2:
         echo "<br>start step 2<br>";
         $sqlstn = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM Node ORDER BY len LIMIT 0 , 1;", $StartLat[$l], $StartLng[$l]);
@@ -72,7 +72,7 @@ step_2:
         }
         $rowstn = mysql_fetch_assoc($querystn);
 
-#StartNode‚©‚çLink‚µ‚Ä‚¢‚éNode‚Ì’Šo
+#StartNodeã‹ã‚‰Linkã—ã¦ã„ã‚‹Nodeã®æŠ½å‡º
         $sql2 = sprintf("SELECT * FROM Link WHERE StartNode = %d", $rowstn['NodeNo']);
         $query2 = mysql_query($sql2);
         if (!$query2) {
@@ -86,7 +86,7 @@ step_2:
                 $x++;
         }
 
-#EndNode‚Ì”»’è
+#EndNodeã®åˆ¤å®š
 step_3:
         echo "<br>start step 3<br>";
         for($y=0; $y < $x; $y++){
@@ -122,7 +122,7 @@ step_3:
         if($j < $i) goto step_1;
         else goto step_6;
 
-#ProLoad‚ÌXV
+#ProLoadã®æ›´æ–°
 step_4:
         echo "<br>start step 4<br>";
         echo 'stlat='.$rowstn['Latitude'].'stlng='.$rowstn['Longitude'].'enlat='.$en_lat[$m].'enlng='.$en_lng[$m].'high_dump='.$high_dump.'<br>';
@@ -135,11 +135,11 @@ step_4:
         $high_dump=0;
         if($l < $j) goto step_2;
         goto step_1;
-#è“®“ü—Í
+#æ‰‹å‹•å…¥åŠ›
 step_5:
         echo "<br>start step 5 <br>";
 
-#I—¹
+#çµ‚äº†
 step_6:
         echo "<br>start step 6 (End)<br>";
 }
