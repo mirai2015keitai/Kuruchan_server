@@ -11,7 +11,7 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
         }else{
                 $srlen = 0.00277778; //300m
 
-                #StartNodeÇÃîªíË
+                #StartNode„ÅÆÂà§ÂÆö
                 $sql1s = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM Node ORDER BY len LIMIT 0 , 1;", $stlat, $stlng);
                 $query1s = mysql_query($sql1s);
                 if (!$query1s) {
@@ -19,7 +19,10 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                 }
                 $row1s = mysql_fetch_assoc($query1s);
 
-                #EndNodeÇÃîªíË
+                if($row1s['len'] < $srlen) $start_node = (INT)$row1s['NodeNo']; #StartNode
+                else return null;
+
+                #EndNode„ÅÆÂà§ÂÆö
                 $sql1e = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude, GLength(GeomFromText(CONCAT('LineString(%f %f,', X(latlon), ' ', Y(latlon),')'))) AS len FROM Node ORDER BY len LIMIT 0 , 1;", $enlat, $enlng);
                 $query1e = mysql_query($sql1e);
                 if (!$query1e) {
@@ -28,12 +31,15 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
 
                 $row1e = mysql_fetch_assoc($query1e);
 
+                if($row1e['len'] < $srlen) $end_node = (INT)$row1e['NodeNo']; #EndNode
+                else return null;
+
                 $start_node = (INT)$row1s['NodeNo']; #StartNode
                 $end_node = (INT)$row1e['NodeNo']; #EndNode
 
                 #echo "startnode=$start_node, endnode=$end_node";
 
-                #StartNodeÇ∆EndNodeÇÃåoà‹ìxéÊìæ
+                #StartNode„Å®EndNode„ÅÆÁµåÁ∑ØÂ∫¶ÂèñÂæó
                 $sql2 = sprintf("SELECT NodeNo, X(latlon) AS Latitude, Y(latlon) AS Longitude FROM Node WHERE NodeNo = %d OR NodeNo = %d", $start_node, $end_node );
                 $query2 = mysql_query($sql2);
                 if (!$query2) {
@@ -47,11 +53,11 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                         $i++;
                 }
 
-                $r = sqrt(pow(($x[1] - $x[0]), 2) + pow(($y[1] - $y[0]), 2));#StartNodeÇ∆EndNodeÇÃãóó£
-                $cx = ($x[0] + $x[1]) / 2;#StartNodeÇ∆EndNodeÇÃíÜì_ÇÃxç¿ïW
-                $cy = ($y[0] + $y[1]) / 2;#StartNodeÇ∆EndNodeÇÃíÜì_ÇÃyç¿ïW
+                $r = sqrt(pow(($x[1] - $x[0]), 2) + pow(($y[1] - $y[0]), 2));#StartNode„Å®EndNode„ÅÆË∑ùÈõ¢
+                $cx = ($x[0] + $x[1]) / 2;#StartNode„Å®EndNode„ÅÆ‰∏≠ÁÇπ„ÅÆxÂ∫ßÊ®ô
+                $cy = ($y[0] + $y[1]) / 2;#StartNode„Å®EndNode„ÅÆ‰∏≠ÁÇπ„ÅÆyÂ∫ßÊ®ô
 
-                #èoóÕÉmÅ[ÉhÇÃîÕàÕéwíË
+                #Âá∫Âäõ„Éé„Éº„Éâ„ÅÆÁØÑÂõ≤ÊåáÂÆö
                 $r1lat = $cx + $r;
                 $r1lng = $cy + $r;
                 $r2lat = $cx - $r;
@@ -71,15 +77,15 @@ function route_serch($stlat, $stlng, $enlat, $enlng){
                         $j++;
                 }
 
-                #É_ÉCÉNÉXÉgÉâñ@
+                #„ÉÄ„Ç§„ÇØ„Çπ„Éà„É©Ê≥ï
                 include_once "dijkstra.php";
 
-                #start_locationÇ∆end_locationÇÃjsonâª
+                #start_location„Å®end_location„ÅÆjsonÂåñ
                 $start_location = json_encode(array(start_location=>array('lat'=>$row1s['Latitude'], 'lng'=>$row1s['Longitude'])));
                 $end_location = json_encode(array(end_location=>array('lat'=>$row1e['Latitude'], 'lng'=>$row1e['Longitude'])));
                 #echo "$start_location,$end_location," ;
 
-                #waypointÇÃjsonâªstartÇ©ÇÁendÇÃèá
+                #waypoint„ÅÆjsonÂåñstart„Åã„Çâend„ÅÆÈ†Ü
                 $waypoints = array();
                 $m = 0;
                 for($l = count($result) - 1; $l >= 0; $l--){
