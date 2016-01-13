@@ -1,11 +1,11 @@
 <?php
 
-# Œo˜HƒRƒXƒg‚Ì”z—ñ
+# çµŒè·¯ã‚³ã‚¹ãƒˆã®é…åˆ—
 $cost_list = array();
 $cost_listt = array();
 $dis_cost = 0;
 for($k = 0; $k < count($node); $k++){
-        $sql4 = sprintf("SELECT * FROM Link WHERE EndNode = %d", $node[$k] );
+        $sql4 = sprintf("SELECT * FROM Link WHERE StartNode = %d", $node[$k] );
         $query4 = mysql_query($sql4);
         if (!$query4) {
                 die('query error'.mysql_error());
@@ -14,7 +14,7 @@ for($k = 0; $k < count($node); $k++){
                 if((INT)$row4['Distance'] >= 600) $dis_cost = 3;
                 if((INT)$row4['Distance'] > 400 && (INT)$row4['Distance'] < 600) $dis_cost = 2;
                 if((INT)$row4['Distance'] <=400) $dis_cost = 1;
-                $cost_listt += array((STRING)$row4['StartNode']=>(INT)$row4['high_dump'] + $dis_cost);
+                $cost_listt += array((STRING)$row4['EndNode']=>(INT)$row4['high_dump'] + $dis_cost);
                 $dis_cost = 0;
         }
         $cost_list += array($node[$k]=>$cost_listt);
@@ -23,7 +23,7 @@ for($k = 0; $k < count($node); $k++){
 
 #var_dump($cost_list);
 
-# ƒ_ƒCƒNƒXƒgƒ‰–@
+# ãƒ€ã‚¤ã‚¯ã‚¹ãƒˆãƒ©æ³•
 function dijkstra($start_node, $cost_list){
 
         step_1:
@@ -106,9 +106,9 @@ function serch_path($start_node, $end_node, $cost_list){
         #var_dump($result);
 
 # dist_node
-# visited_node = ŒŸØ‚µ‚½ƒm[ƒh‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+# visited_node = æ¤œè¨¼ã—ãŸãƒŽãƒ¼ãƒ‰ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
 # prev_node
-# unvisited_node = ŒŸØ‚µ‚Ä‚¢‚È‚¢ƒm[ƒh‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
-# back_opt_path = Å“KŒo˜H
+# unvisited_node = æ¤œè¨¼ã—ã¦ã„ãªã„ãƒŽãƒ¼ãƒ‰ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
+# back_opt_path = æœ€é©çµŒè·¯
 
 ?>
